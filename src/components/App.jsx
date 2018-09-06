@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "./Table";
+import Table from "lib";
 
 const data = [
 	{
@@ -37,7 +37,7 @@ const schema = {
 };
 
 const App = () => <div>
-	<h1>App</h1>
+	<h1>Table Example</h1>
 	<Table data={data} schema={schema} />
 </div>;
 

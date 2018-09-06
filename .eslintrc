@@ -39,6 +39,7 @@
     "react/jsx-wrap-multilines": "off",
     "react/jsx-filename-extension": "off",
     "react/require-default-props": "off",
+    "react/no-array-index-key": "off",
     "max-len": "off",
     "global-require": "off",
     "comma-dangle": "off",

@@ -1,11 +1,11 @@
 const _ = require("lodash/util");
 
-const isComplexField = (property, schema) => typeof schema[property] === "object";
+export const isComplexField = property => typeof property === "object";
 
 const normalizeItem = (item, schema, row = []) => {
 	let result = [];
 	// put values of all plain field to the result row, as cells
-	Object.keys(item).filter(property => !isComplexField(property, schema)).forEach(property => {
+	Object.keys(item).filter(property => !isComplexField(schema[property])).forEach(property => {
 		row.push({
 			value: item[property],
 			id: _.uniqueId(),
@@ -14,11 +14,11 @@ const normalizeItem = (item, schema, row = []) => {
 		});
 	});
 	// if there are no more array-like properties, push row to the result array
-	if (!Object.keys(item).find(property => isComplexField(property, schema))) {
+	if (!Object.keys(item).find(property => isComplexField(schema[property]))) {
 		result.push(row);
 	} else {
 		// else recursively collect field values of nested objects
-		Object.keys(item).filter(property => isComplexField(property, schema)).forEach(property => {
+		Object.keys(item).filter(property => isComplexField(schema[property])).forEach(property => {
 			for (const child of item[property]) {
 				result = result.concat(normalizeItem(child, schema[property], [ ...row ]));
 			}
@@ -27,7 +27,7 @@ const normalizeItem = (item, schema, row = []) => {
 	return result;
 };
 
-const removeDuplicateCells = rows => {
+const removeDuplicatedCells = rows => {
 	for (let i = 0; i < rows.length; i++) {
 		for (let k = 0; k < rows[i].length; k++) {
 			const cell = rows[i][k];
@@ -45,7 +45,7 @@ const removeDuplicateCells = rows => {
 export function normalizeData(data, schema) {
 	let result = [];
 	for (const one of data) {
-		result = result.concat(removeDuplicateCells(normalizeItem(one, schema)));
+		result = result.concat(removeDuplicatedCells(normalizeItem(one, schema)));
 	}
 	return result;
 }
