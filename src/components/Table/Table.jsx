@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./Table.scss";
-import { normalize } from "./utils";
+import { normalizeData } from "./utils";
 
 const getHeaderColumns = schema => Object.values(schema).map(one => (typeof one === "object" ? getHeaderColumns(one) : <td>{ one }</td>));
 
 const Table = ({ data, schema }) => {
-	const rows = normalize(data);
+	const rows = normalizeData(data, schema);
 	return <div>
 		<table className="Table">
 			<thead>
