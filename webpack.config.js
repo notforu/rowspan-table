@@ -70,7 +70,7 @@ if (!isProduction) {
 		publicPath: "/public",
 		historyApiFallback: true,
 	};
-	result.module.rules.unshift({
+	/*result.module.rules.unshift({
 		test: /\.(js|jsx)$/,
 		loader: "eslint-loader",
 		exclude: /(node_modules)/,
@@ -79,7 +79,7 @@ if (!isProduction) {
 			emitOnWarning: true,
 			emitOnError: true,
 		}
-	});
+	});*/
 } else {
 	result.plugins = result.plugins.concat([
 		new webpack.optimize.ModuleConcatenationPlugin(),

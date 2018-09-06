@@ -1,7 +1,7 @@
 import React from "react";
 import Table from "./Table";
 
-const mockData = [
+const data = [
 	{
 		name: "MobileUp1",
 		addresses: [
@@ -9,16 +9,36 @@ const mockData = [
 				address: "ул. Большая Московская, д.1",
 				services: [
 					{ name: "internet", price: 1000 },
-					{ name: "ip address", price: 200 }
+					{ name: "ip address", price: 200 },
+					{ name: "ip address 1", price: 300 },
+					{ name: "ip address 2", price: 400 },
+				]
+			},
+			{
+				address: "ул. Большая Московская, д.3",
+				services: [
+					{ name: "something", price: 800 },
+					{ name: "else", price: 500 }
 				]
 			}
 		]
 	}
 ];
 
+const schema = {
+	name: "Название",
+	addresses: {
+		address: "Адрес",
+		services: {
+			name: "Название сервиса",
+			price: "Цена"
+		}
+	}
+};
+
 const App = () => <div>
 	<h1>App</h1>
-	<Table data={mockData} />
+	<Table data={data} schema={schema} />
 </div>;
 
 export default App;

@@ -1,12 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./Table.scss";
+import { normalize } from "./utils";
 
-const Table = ({ data }) => <div>
-	{ data.map(one => one.name) }
-</div>;
+const getHeaderColumns = schema => Object.values(schema).map(one => (typeof one === "object" ? getHeaderColumns(one) : <td>{ one }</td>));
+
+const Table = ({ data, schema }) => {
+	const rows = normalize(data);
+	return <div>
+		<table className="Table">
+			<thead>
+				<tr>{ getHeaderColumns(schema) }</tr>
+			</thead>
+			<tbody>
+				{ rows.map(row => <tr>
+					{ row.map(cell => cell.isVisible && <td rowSpan={cell.rowSpan}>{ cell.value }</td>) }
+				</tr>) }
+			</tbody>
+		</table>
+	</div>;
+};
 
 Table.propTypes = {
-	data: PropTypes.array.isRequired
+	data: PropTypes.array.isRequired,
+	schema: PropTypes.object.isRequired,
 };
 
 export default Table;
