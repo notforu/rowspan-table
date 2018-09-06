@@ -1,0 +1,68 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "indent": ["error", "tab"],
+    "react/jsx-indent": ["error", "tab"],
+    "react/jsx-indent-props": ["error", "tab"],
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-closing-tag-location": "off",
+    "quotes": ["error", "double"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "space-before-function-paren": "off",
+    "import/extensions": "off",
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
+    "jsx-a11y/anchor-has-content": "off",
+    "jsx-a11y/href-no-hash": "off",
+    "no-underscore-dangle": "off",
+    "react/forbid-prop-types": "off",
+    "no-tabs": "off",
+    "arrow-parens": "off",
+    "prefer-template": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/jsx-filename-extension": "off",
+    "react/require-default-props": "off",
+    "max-len": "off",
+    "global-require": "off",
+    "comma-dangle": "off",
+    "no-return-assign": "off",
+    "quote-props": "off",
+    "array-bracket-spacing": "off",
+    "no-restricted-syntax": "off",
+    "no-plusplus": "off",
+    "guard-for-in": "off",
+    "consistent-return": "off",
+    "no-param-reassign": "off",
+    "linebreak-style": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: true
+      }
+    ]
+  },
+  "settings": {
+      "import/resolver": {
+        "webpack": {
+          "config": "webpack.config.js"
+        }
+      }
+    }
+}
