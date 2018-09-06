@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import "./Table.scss";
-import { normalizeData, isComplexField } from "./utils";
+import { formatItems, isCollectionField } from "./utils";
 
-const getHeaderColumns = (schema, className) => Object.values(schema).map(property => (isComplexField(property) ? getHeaderColumns(property) : <td key={property} className={className}>{ property }</td>));
+const getHeaderColumns = (schema, className) => Object.values(schema).map(property => (isCollectionField(property) ? getHeaderColumns(property) : <td key={property} className={className}>{ property }</td>));
 
 const Table = ({
-	data, schema, className, tdClassName, tdHeaderClassName
+	items, schema, className, tdClassName, tdHeaderClassName
 }) => {
-	const rows = normalizeData(data, schema);
+	const rows = formatItems(items, schema);
 	return <table className={classnames(className, "Table")}>
 		<thead>
 			<tr>{ getHeaderColumns(schema, tdHeaderClassName) }</tr>
@@ -23,7 +23,7 @@ const Table = ({
 };
 
 Table.propTypes = {
-	data: PropTypes.array.isRequired,
+	items: PropTypes.array.isRequired,
 	schema: PropTypes.object.isRequired,
 	className: PropTypes.string,
 	tdClassName: PropTypes.string,

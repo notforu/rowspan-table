@@ -1,11 +1,12 @@
 const _ = require("lodash/util");
 
-export const isComplexField = property => typeof property === "object";
+export const isCollectionField = property => typeof property === "object";
 
-const normalizeItem = (item, schema, row = []) => {
+// converts tree-item into an array of rows
+const getRows = (item, schema, row = []) => {
 	let result = [];
 	// put values of all plain field to the result row, as cells
-	Object.keys(item).filter(property => !isComplexField(schema[property])).forEach(property => {
+	Object.keys(item).filter(property => !isCollectionField(schema[property])).forEach(property => {
 		row.push({
 			value: item[property],
 			id: _.uniqueId(),
@@ -14,13 +15,13 @@ const normalizeItem = (item, schema, row = []) => {
 		});
 	});
 	// if there are no more array-like properties, push row to the result array
-	if (!Object.keys(item).find(property => isComplexField(schema[property]))) {
+	if (!Object.keys(item).find(property => isCollectionField(schema[property]))) {
 		result.push(row);
 	} else {
 		// else recursively collect field values of nested objects
-		Object.keys(item).filter(property => isComplexField(schema[property])).forEach(property => {
+		Object.keys(item).filter(property => isCollectionField(schema[property])).forEach(property => {
 			for (const child of item[property]) {
-				result = result.concat(normalizeItem(child, schema[property], [ ...row ]));
+				result = result.concat(getRows(child, schema[property], [ ...row ]));
 			}
 		});
 	}
@@ -42,10 +43,12 @@ const removeDuplicatedCells = rows => {
 	return rows;
 };
 
-export function normalizeData(data, schema) {
+
+// converts array of tree-like items into an array of rows
+export function formatItems(items, schema) {
 	let result = [];
-	for (const one of data) {
-		result = result.concat(removeDuplicatedCells(normalizeItem(one, schema)));
+	for (const item of items) {
+		result = result.concat(removeDuplicatedCells(getRows(item, schema)));
 	}
 	return result;
 }

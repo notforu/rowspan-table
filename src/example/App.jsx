@@ -1,7 +1,7 @@
 import React from "react";
 import Table from "lib";
 
-const data = [
+const items = [
 	{
 		name: "MobileUp1",
 		addresses: [
@@ -38,7 +38,7 @@ const schema = {
 
 const App = () => <div>
 	<h1>Table Example</h1>
-	<Table data={data} schema={schema} />
+	<Table items={items} schema={schema} />
 </div>;
 
 export default App;

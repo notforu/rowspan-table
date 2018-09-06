@@ -4,7 +4,8 @@ This is a simple table for rendering data with multiple nesting.
 
 # Usage Example
 
-    const data = [
+
+    const items = [
 		{
 			name: "MobileUp1",
 			addresses: [
@@ -25,6 +26,7 @@ This is a simple table for rendering data with multiple nesting.
 			]
 		}
 	];
+
 	const schema = {
 		name: "Название",
 		addresses: {
@@ -35,8 +37,11 @@ This is a simple table for rendering data with multiple nesting.
 			}
 		}
 	};
-	const App = () => <Table data={data} schema={schema} />;
+	
+	const App = () => <Table items={items} schema={schema} />;
 
 
+
+# Installation
 
 To run project locally, clone this repo, run `npm i && npm start` in your command line, and open up `http://localhost:8080` in your browser.
