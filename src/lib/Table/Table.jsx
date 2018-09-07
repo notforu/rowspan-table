@@ -2,19 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import "./Table.scss";
-import { formatItems, isCollectionField } from "./utils";
-
-const getHeaderColumns = schema => {
-	let result = [];
-	Object.values(schema).forEach(property => {
-		if (isCollectionField(property)) {
-			result = result.concat(getHeaderColumns(property));
-		} else {
-			result.push(property);
-		}
-	});
-	return result.sort((a, b) => (a.order < b.order ? -1 : 1));
-};
+import { formatItems, getHeaderColumns } from "./utils";
 
 const Table = ({
 	items, schema, className, tdClassName, tdHeaderClassName

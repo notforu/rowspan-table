@@ -1,6 +1,18 @@
 const _ = require("lodash/util");
 
-export const isCollectionField = property => !property.order && !property.label;
+const isCollectionField = property => !property.order && !property.label;
+
+export const getHeaderColumns = schema => {
+	let result = [];
+	Object.values(schema).forEach(property => {
+		if (isCollectionField(property)) {
+			result = result.concat(getHeaderColumns(property));
+		} else {
+			result.push(property);
+		}
+	});
+	return result.sort((a, b) => (a.order < b.order ? -1 : 1));
+};
 
 // converts tree-item into an array of rows
 const getRows = (item, schema, row = []) => {
