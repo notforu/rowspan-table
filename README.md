@@ -28,13 +28,13 @@ This is a simple table for rendering data with multiple nesting.
 	];
 
 	const schema = {
-		name: "Название",
+		name: { label: "Название", order: 1 },
 		addresses: {
-			address: "Адрес",
+			address: { label: "Адрес", order: 2 },
 			services: {
-				name: "Название сервиса",
-				price: "Цена"
-			}
+				name: { label: "Название сервиса", order: 3 },
+				price: { label: "Цена", order: 4 }
+			},
 		}
 	};
 	

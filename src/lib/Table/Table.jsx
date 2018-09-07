@@ -4,7 +4,17 @@ import classnames from "classnames";
 import "./Table.scss";
 import { formatItems, isCollectionField } from "./utils";
 
-const getHeaderColumns = (schema, className) => Object.values(schema).map(property => (isCollectionField(property) ? getHeaderColumns(property) : <td key={property} className={className}>{ property }</td>));
+const getHeaderColumns = schema => {
+	let result = [];
+	Object.values(schema).forEach(property => {
+		if (isCollectionField(property)) {
+			result = result.concat(getHeaderColumns(property));
+		} else {
+			result.push(property);
+		}
+	});
+	return result.sort((a, b) => (a.order < b.order ? -1 : 1));
+};
 
 const Table = ({
 	items, schema, className, tdClassName, tdHeaderClassName
@@ -12,7 +22,9 @@ const Table = ({
 	const rows = formatItems(items, schema);
 	return <table className={classnames(className, "Table")}>
 		<thead>
-			<tr>{ getHeaderColumns(schema, tdHeaderClassName) }</tr>
+			<tr>
+				{ getHeaderColumns(schema).map(cell => <td className={tdHeaderClassName} key={cell.order}>{ cell.label }</td>) }
+			</tr>
 		</thead>
 		<tbody>
 			{ rows.map((row, index) => <tr key={index}>

@@ -1,25 +1,28 @@
 const _ = require("lodash/util");
 
-export const isCollectionField = property => typeof property === "object";
+export const isCollectionField = property => !property.order && !property.label;
 
 // converts tree-item into an array of rows
 const getRows = (item, schema, row = []) => {
 	let result = [];
+	const properties = Object.keys(item);
 	// put values of all plain field to the result row, as cells
-	Object.keys(item).filter(property => !isCollectionField(schema[property])).forEach(property => {
+	properties.filter(property => !isCollectionField(schema[property])).forEach(property => {
 		row.push({
 			value: item[property],
 			id: _.uniqueId(),
 			rowSpan: 1,
+			order: schema[property].order,
 			isVisible: true
 		});
 	});
 	// if there are no more array-like properties, push row to the result array
-	if (!Object.keys(item).find(property => isCollectionField(schema[property]))) {
+	if (!properties.find(property => isCollectionField(schema[property]))) {
+		row.sort((cellA, cellB) => (cellA.order < cellB.order ? -1 : 1));
 		result.push(row);
 	} else {
 		// else recursively collect field values of nested objects
-		Object.keys(item).filter(property => isCollectionField(schema[property])).forEach(property => {
+		properties.filter(property => isCollectionField(schema[property])).forEach(property => {
 			for (const child of item[property]) {
 				result = result.concat(getRows(child, schema[property], [ ...row ]));
 			}
